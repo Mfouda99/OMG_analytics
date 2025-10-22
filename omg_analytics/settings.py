@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-c2%*pb6j7$!-jp1a!4^$lcgte&=x6wgs_f-%vi^jt(l3=jca0)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['analytics.aiesec.gr', 'omganalytics.aiesec.gr', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -150,3 +150,4 @@ LOGGING = {
         },
     },
 }
+
