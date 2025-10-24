@@ -1,0 +1,2329 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Analytics Dashboard</title>
+        <link rel="icon" type="image/png" href="{% static 'images/omg_logo.png' %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Montserrat-Regular';
+            src: url("{% static 'fonts/Montserrat-Regular.ttf' %}") format('truetype');
+        }
+        
+        @font-face {
+            font-family: 'Gelio _Fasolada';
+            src: url("{% static 'fonts/Gelio _Fasolada.ttf' %}") format('truetype');
+        }
+        
+        @font-face {
+            font-family: 'Montserrat-Regular';
+            src: url("{% static 'fonts/Montserrat-Regular.ttf' %}") format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat-Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #037EF3;
+            min-height: 100vh;
+            padding-top: 80px;
+          
+            position: relative;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #037EF3;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 3px solid #fff;
+            z-index: 1000;
+            padding: 0 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .navbar-logo {
+            font-family: 'Gelio _Fasolada';
+            font-size: 2rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+        }
+
+        .navbar-item {
+            position: relative;
+        }
+
+        .navbar-link {
+            color: white;
+            text-decoration: none;
+            font-family: 'Montserrat-Regular';
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: block;
+            border: 2px solid transparent;
+        }
+
+        .navbar-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .navbar-link.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #fff;
+            color: #fff;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #037EF3;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            z-index: 1001;  list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu .navbar-link {
+            padding: 12px 20px;
+            border-radius: 0;
+            border: none;
+        }
+
+        .dropdown-menu .navbar-link:first-child {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .dropdown-menu .navbar-link:last-child {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .dropdown-menu .navbar-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .navbar-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: #037EF3;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px 0;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                border-bottom: 3px solid #fff;
+                height:1000px;
+            }
+
+            .navbar-menu.active {
+                transform: translateX(0);
+            }
+
+            .navbar-item {
+                width: 100%;
+            }
+
+            .navbar-link {
+                justify-content: center;
+                width: 100%;
+                text-align: center;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 0;
+                visibility: hidden;
+                max-height: 0;
+                overflow: hidden;
+                transform: none;
+                background: rgba(3, 126, 243, 0.9);
+                border: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 0;
+                box-shadow: none;
+                transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+                padding: 0;
+            }
+
+            .dropdown.active .dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+                max-height: 500px;
+                padding: 10px 0;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 4px solid #fff;
+            border-radius: 25px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3),
+                        0 10px 20px rgba(0, 0, 0, 0.2),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(3, 126, 243, 0.9), rgba(3, 126, 243, 0.9));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 4px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before,
+        .header::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 3px;
+            width: 60%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+        }
+        
+        .header::before {
+            top: 10px;
+        }
+        
+        .header::after {
+            bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+            font-family: 'Gelio _Fasolada', Arial, sans-serif;
+            color: #fff;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            padding: 30px;
+            background: rgba(248, 249, 250, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .date-selection-container {
+            margin-top: 20px;
+        }
+
+        .date-label {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 2px;
+        }
+
+        .date-label::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: #037EF3;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .date-selector {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .date-selector::before,
+        .date-selector::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+        
+        .date-selector::before {
+            top: 0;
+        }
+        
+        .date-selector::after {
+            bottom: 0;
+        }
+
+        .date-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+        }
+
+        .date-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-family: 'Montserrat-Regular';
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .load-btn {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #2c3e50;
+            border: 2px solid #037EF3;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 1px;
+            align-self: end;
+            margin-bottom: 5px;
+            height: fit-content;
+        }
+
+        .load-btn:hover {
+            background: #b9d9f8ff;
+            border-color: #037EF3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px #ffffff98;
+        }
+
+        .load-btn:disabled {
+            background: rgba(149, 165, 166, 0.6);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .custom-date-input {
+            position: relative;
+            width: 200px;
+        }
+
+        .date-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 1px;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+
+        .dropdown-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #000000;
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        /* Calendar Styles from LC AUTh */
+        .calendar-container {
+              display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            padding: 20px;
+            margin-top: 5px;
+            width: 350px;
+            font-family: Arial, sans-serif;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+        }
+
+        .calendar-header button {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 18px;none
+            color: #2c3e50;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        .calendar-header button:hover {
+            background: #b9d9f8ff;
+            border-color: #037EF3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px #ffffff98;
+        }
+
+        .month-year {
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #037EF3 ;
+                        font-family: 'Gelio _Fasolada', Arial, sans-serif;
+
+        }
+
+        .calendar {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 3px;
+        }
+
+        .calendar th, .calendar td {
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            font-size: 14px;
+            padding: 0;
+            line-height: 40px;
+            font-family: 'Montserrat-Regular';
+            font-weight: bold;
+        }
+
+        .calendar th {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .calendar td {
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .calendar td:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .calendar td.selected {
+            background-color: #fff;
+            color: white;
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+
+        .calendar td.today {
+            background-color: rgba(3, 126, 243, 0.8);
+            color: white;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        /* Table Styles - Matching e2e_mc.html */
+        .e2e-table-container {
+            margin: 40px 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-title {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-family: 'Gelio _Fasolada', Arial, sans-serif;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .table-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .table-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.95);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.8) rgba(255, 255, 255, 0.1);
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Montserrat-Regular';
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #037EF3, #037EF3);
+            color: #fff;
+            padding: 15px 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .data-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        .data-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .data-table tbody tr:hover td {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.01);
+        }
+
+        .data-table tbody tr:nth-child(even) td {
+            background: rgba(248, 249, 250, 0.8);
+        }
+
+        .data-table tbody tr:nth-child(even):hover td {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table .programme-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .loading-state, .empty-state {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 1px;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .status-loading {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+
+        .status-success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .status-error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+            display: block;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Chart Containers */
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .chart-container:hover {
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .chart-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 1px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 600px;
+        }
+
+        /* Combined Timeline Chart Styles */
+        .combined-timeline-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.95));
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            height: 100%;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .combined-chart-controls {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .control-row {
+            display: flex;
+            gap: 25px;
+            align-items: end;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .dropdown-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .dropdown-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-family: 'Montserrat-Regular';
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .chart-dropdown {
+            padding: 10px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #2c3e50;
+            background: white;
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        
+
+        .chart-dropdown:focus {
+            outline: none;
+            border-color: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .chart-dropdown:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(248, 249, 250, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .date-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .date-group {
+                justify-content: space-between;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .data-table {
+                font-size: 0.9rem;
+            }
+
+             .load-btn {
+           left: -45px;
+        }
+
+            .data-table th,
+            .data-table td {
+                padding: 10px 8px;
+            }
+
+            /* Mobile Calendar Fixes */
+            .calendar-container {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                width: 90vw !important;
+                max-width: 320px !important;
+                height: auto !important;
+                max-height: 80vh !important;
+                overflow-y: auto !important;
+                z-index: 9999 !important;
+                padding: 15px !important;
+                margin: 0 !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+                border: 2px solid rgba(255, 255, 255, 0.6) !important;
+            }
+
+            .calendar-header {
+                margin-bottom: 10px !important;
+                font-size: 16px !important;
+                padding-bottom: 8px !important;
+            }
+
+            .calendar-header button {
+                padding: 6px 10px !important;
+                font-size: 16px !important;
+                min-width: 40px !important;
+            }
+
+            .calendar {
+                width: 100% !important;
+                border-spacing: 2px !important;
+            }
+
+            .calendar th, .calendar td {
+                width: 35px !important;
+                height: 35px !important;
+                line-height: 35px !important;
+                font-size: 12px !important;
+                padding: 0 !important;
+            }
+
+            .calendar td {
+                cursor: pointer !important;
+                touch-action: manipulation !important;
+                -webkit-tap-highlight-color: transparent !important;
+            }
+
+            .calendar td:hover {
+                background-color: rgba(255, 255, 255, 0.3) !important;
+                transform: none !important;
+            }
+
+            .calendar td:active {
+                background-color: rgba(255, 255, 255, 0.5) !important;
+                transform: scale(0.95) !important;
+            }
+
+            .month-year {
+                font-size: 14px !important;
+                letter-spacing: 0.5px !important;
+            }
+
+            /* Mobile calendar backdrop */
+            .calendar-backdrop {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 9998;
+                backdrop-filter: blur(3px);
+                -webkit-backdrop-filter: blur(3px);
+            }
+
+            .calendar-backdrop.active {
+                display: block;
+            }
+
+            
+            /* Improve touch targets for mobile date inputs */
+            .date-input {
+                font-size: 16px !important;
+                padding: 14px 40px 14px 15px !important;
+                min-height: 44px !important;
+                touch-action: manipulation !important;
+            }
+
+            .chart-container {
+                height: 100%;
+                margin: 20px 0;
+                padding: 15px;
+            }
+
+            .chart-title {
+                font-size: 1.2rem;
+            }
+
+           
+            /* Combined chart responsive styles */
+            .control-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .dropdown-group {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .chart-dropdown {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .combined-timeline-container {
+                padding: 15px;
+                margin: 20px 0;
+            }
+
+            .combined-chart-controls {
+                padding: 15px;
+            }
+            
+            /* Mobile responsive styles for new table structure */
+            .table-title {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+            
+            .table-wrapper {
+                max-height: 400px;
+                font-size: 0.9rem;
+            }
+            
+            .e2e-table-container {
+                margin: 20px 0;
+                padding: 15px;
+                max-height: 500px;
+            }
+            
+            .e2e-table-container table th,
+            .e2e-table-container table td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+        }
+        
+         /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #037EF3, rgba(3, 126, 243, 0.95));
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: 50px;
+            border-top: 3px solid rgba(255, 255, 255, 0.8);
+            font-family: 'Montserrat-Regular';
+            letter-spacing: 1px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+        }
+        
+        .footer p {
+            font-size: 1.1rem;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        @media (max-width: 768px) {
+            .footer {
+                padding: 20px 15px;
+            }
+            
+            .footer p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">
+                <img src="{% static 'images/White-Blue-Logo.png' %}" alt="OMG Analytics" style="height: 40px; width: auto;">
+            </a>
+            
+            <ul class="navbar-menu" id="navbar-menu">
+                <li class="navbar-item">
+                    <a href="/" class="navbar-link">Home</a>
+                </li>
+                <li class="navbar-item">
+                    <a href="/mc/" class="navbar-link active">MC Analytics</a>
+                </li>
+                <li class="navbar-item dropdown">
+                    <a href="#" class="navbar-link">LCs ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/lc_athens/" class="navbar-link">LC Athens</a></li>
+                        <li><a href="/lc_auth/" class="navbar-link">LC AUTH</a></li>
+                        <li><a href="/lc_unipi/" class="navbar-link">LC UniPi</a></li>
+                        <li><a href="/lc_uom_thessaloniki/" class="navbar-link">LC UoM Thessaloniki</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item dropdown">
+                    <a href="#" class="navbar-link">IEs ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/ie_uoi/" class="navbar-link">IE UoI</a></li>
+                        <li><a href="/ie_volos/" class="navbar-link">IE Volos</a></li>
+                    </ul>
+                </li>
+                <li class="navbar-item dropdown">
+                    <a href="#" class="navbar-link">E2E ▼</a>
+                    <ul class="dropdown-menu">
+                             <li><a href="/e2e_mc" class="navbar-link">E2E MC</a></li>
+                        <li><a href="/e2e_lc_athens" class="navbar-link">E2E LC Athens</a></li>
+                        <li><a href="/e2e_lc_unipi" class="navbar-link">E2E LC UniPi</a></li>
+                        <li><a href="/e2e_lc_uom_thessaloniki" class="navbar-link">E2E LC UoM Thessaloniki</a></li>
+                        <li><a href="/e2e_lc_auth" class="navbar-link">E2E LC AUTh</a></li>
+                        <li><a href="/e2e_ie_uoi" class="navbar-link">E2E IE UoI</a></li>
+                        <li><a href="/e2e_ie_volos" class="navbar-link">E2E IE Volos</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>MC Analytics Dashboard</h1>
+            <p>AIESEC Greece - Member Committee Analytics</p>
+        </div>
+
+        <div class="controls">
+            <div class="date-selection-container">
+                <div class="date-label">Select Date Range</div>
+                <div class="date-selector">
+                    <div class="date-group">
+                        <label for="start-date">Starting Date</label>
+                        <div class="custom-date-input">
+                            <input type="text" id="start-date" class="date-input" placeholder="DD/MM/YYYY or click to select" maxlength="10">
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                    </div>
+                    <div class="date-group">
+                        <label for="end-date">Ending Date</label>
+                        <div class="custom-date-input">
+                            <input type="text" id="end-date" class="date-input" placeholder="DD/MM/YYYY or click to select" maxlength="10">
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                    </div>
+                    <button id="load-data" class="load-btn">Load Analytics</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="status-message" class="status-message" style="display: none;"></div>
+
+            <!-- OGX Section -->
+            <div class="section">
+                <h2 class="table-title">OGX ( Outgoing Exchange ) Analytics</h2>
+                <div class="e2e-table-container">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="ogx-table">
+                            <thead>
+                                <tr>
+                                    <th>Programme</th>
+                                    <th>Signups</th>
+                                    <th>Applied</th>
+                                    <th>Accepted</th>
+                                    <th>Approved</th>
+                                    <th>Realized</th>
+                                    <th>Finished</th>
+                                    <th>Complete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="programme-name">OGV</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                                <tr>
+                                    <td class="programme-name">OGTa</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                                <tr>
+                                    <td class="programme-name">OGTe</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ICX Section -->
+            <div class="section">
+                <h2 class="table-title">ICX ( Incoming Exchange ) Analytics</h2>
+                <div class="e2e-table-container">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="icx-table">
+                            <thead>
+                                <tr>
+                                    <th>Programme</th>
+                                    <th>Applied</th>
+                                    <th>Accepted</th>
+                                    <th>Approved</th>
+                                    <th>Realized</th>
+                                    <th>Finished</th>
+                                    <th>Complete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="programme-name">IGV</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                                <tr>
+                                    <td class="programme-name">IGTa</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process Times Section -->
+            <div class="section">
+                <h2 class="table-title">Process Times (Average Days)</h2>
+                
+                <h3 style="text-align: center; margin-bottom: 15px; color: #34495e;">OGX Process Times</h3>
+                <div class="e2e-table-container">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="ogx-process-table">
+                            <thead>
+                                <tr>
+                                    <th>Programme</th>
+                                    <th>Signup → Applied</th>
+                                    <th>Applied → Accepted</th>
+                                    <th>Accepted → Approved</th>
+                                    <th>Total Process Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="programme-name">OGV</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                                <tr>
+                                    <td class="programme-name">OGTa</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                                <tr>
+                                    <td class="programme-name">OGTe</td>
+                                    <td>-</td><td>-</td><td>-</td><td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h3 style="text-align: center; margin: 30px 0 15px; color: #34495e;">ICX Process Times</h3>
+                <div class="e2e-table-container">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="icx-process-table">
+                            <thead>
+                                <tr>
+                                    <th>Programme</th>
+                                    <th>Applied → Accepted</th>
+                                    <th>Accepted → Approved</th>
+                                    <th>Total Process Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="programme-name">IGV</td>
+                                    <td>-</td><td>-</td><td>-</td>
+                                </tr>
+                                <tr>
+                                    <td class="programme-name">IGTa</td>
+                                    <td>-</td><td>-</td><td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Charts Section -->
+            <div class="section">
+                <h2 class="section-title">Timeline Analytics (Based on Selected Date Range)</h2>
+                
+                <!-- Combined Timeline Chart Section -->
+                <div class="section-divider" style="margin: 40px 0; border-top: 2px solid rgba(255, 255, 255, 0.3);"></div>
+                
+                <h3 style="text-align: center; margin: 30px 0 20px; color: #2c3e50; font-family: 'Montserrat-Regular'; font-size: 1.8rem; letter-spacing: 1px;">📊 Combined Timeline Overview</h3>
+                
+                <div class="chart-container combined-timeline-container">
+                    <div class="combined-chart-controls">
+                        <div class="control-row">
+                            <div class="dropdown-group">
+                                <label for="programme-select">Programme:</label>
+                                <select id="programme-select" class="chart-dropdown">
+                                    <option value="ALL">All Programmes</option>
+                                    <option value="OGV">OGV (Outgoing Volunteer)</option>
+                                    <option value="OGTa">OGTa (Outgoing Talent)</option>
+                                    <option value="OGTe">OGTe (Outgoing Teacher)</option>
+                                    <option value="IGV">IGV (Incoming Volunteer)</option>
+                                    <option value="IGTa">IGTa (Incoming Talent)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="dropdown-group">
+                                <label for="stage-select">Stage:</label>
+                                <select id="stage-select" class="chart-dropdown">
+                                    <option value="ALL">All Stages</option>
+                                    <option value="SU">Signups (SU)</option>
+                                    <option value="APP">Applied (APP)</option>
+                                    <option value="ACC">Accepted (ACC)</option>
+                                    <option value="APD">Approved (APD)</option>
+                                    <option value="REA">Realized (REA)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-wrapper">
+                        <canvas id="combinedTimelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Widget - Outside main container to avoid stacking context issues -->
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button class="prev-month">&lt;</button>
+            <span class="month-year"></span>
+            <button class="next-month">&gt;</button>
+        </div>
+        <table class="calendar">
+            <thead>
+                <tr>
+                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    
+
+    <script>
+        // Global variables
+        let isLoading = false;
+        let currentActiveInput = null;
+        let currentDate = new Date();
+
+        // DOM Elements
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        const loadBtn = document.getElementById('load-data');
+        const statusMessage = document.getElementById('status-message');
+        const calendarContainer = document.querySelector('.calendar-container');
+        const monthYearSpan = document.querySelector('.month-year');
+        const prevMonthBtn = document.querySelector('.prev-month');
+        const nextMonthBtn = document.querySelector('.next-month');
+        const calendarBody = document.querySelector('.calendar tbody');
+        
+        // Navbar Elements
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navbarMenu = document.getElementById('navbar-menu');
+
+        // Mobile Menu Toggle
+        mobileMenuToggle.addEventListener('click', function() {
+            navbarMenu.classList.toggle('active');
+        });
+
+        // Mobile Dropdown Toggle
+        const dropdownItems = document.querySelectorAll('.navbar-menu .dropdown');
+        console.log('📱 Found dropdown items:', dropdownItems.length);
+        
+        dropdownItems.forEach((dropdown, index) => {
+            const dropdownLink = dropdown.querySelector('.navbar-link');
+            if (dropdownLink) {
+                console.log(`🔗 Setting up dropdown ${index + 1}: ${dropdownLink.textContent}`);
+                
+                dropdownLink.addEventListener('click', function(e) {
+                    console.log('📱 Dropdown clicked:', dropdownLink.textContent, 'Window width:', window.innerWidth);
+                    
+                    // Only handle dropdown clicks in mobile view
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        console.log('🎯 Mobile mode detected, toggling dropdown');
+                        
+                        // Close other dropdowns
+                        dropdownItems.forEach(otherDropdown => {
+                            if (otherDropdown !== dropdown) {
+                                otherDropdown.classList.remove('active');
+                                console.log('❌ Closed other dropdown');
+                            }
+                        });
+                        
+                        // Toggle current dropdown
+                        const wasActive = dropdown.classList.contains('active');
+                        dropdown.classList.toggle('active');
+                        
+                        console.log(`🔄 Dropdown ${wasActive ? 'closed' : 'opened'}:`, dropdownLink.textContent);
+                        console.log('📋 Dropdown classes:', dropdown.className);
+                    } else {
+                        console.log('🖥️ Desktop mode, allowing default behavior');
+                    }
+                });
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.navbar')) {
+                navbarMenu.classList.remove('active');
+                // Close all dropdowns when menu closes
+                dropdownItems.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        // Calendar Functions
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const today = new Date();
+            
+            monthYearSpan.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
+            calendarBody.innerHTML = '';
+            
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const prevMonthDays = new Date(year, month, 0).getDate();
+            
+            let date = 1;
+            
+            for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+                
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('td');
+                    
+                    if (i === 0 && j < firstDayOfMonth) {
+                        const prevDate = prevMonthDays - (firstDayOfMonth - j - 1);
+                        cell.textContent = prevDate;
+                        cell.style.color = '#ccc';
+                    } else if (date > daysInMonth) {
+                        const nextDate = date - daysInMonth;
+                        cell.textContent = nextDate;
+                        cell.style.color = '#ccc';
+                        date++;
+                    } else {
+                        cell.textContent = date;
+                        cell.dataset.date = date;
+                        cell.dataset.month = month;
+                        cell.dataset.year = year;
+                        
+                        if (date === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                            cell.classList.add('today');
+                        }
+                        
+                        const dateStr = `${date.toString().padStart(2, '0')}/${(month + 1).toString().padStart(2, '0')}/${year}`;
+                        if (startDateInput.value === dateStr || endDateInput.value === dateStr) {
+                            cell.classList.add('selected');
+                        }
+                        
+                        cell.addEventListener('click', selectDate);
+                        date++;
+                    }
+                    
+                    row.appendChild(cell);
+                }
+                
+                calendarBody.appendChild(row);
+                if (date > daysInMonth && i >= 3) break;
+            }
+        }
+
+        function selectDate(event) {
+            if (currentActiveInput) {
+                const day = parseInt(event.target.dataset.date);
+                const month = parseInt(event.target.dataset.month);
+                const year = parseInt(event.target.dataset.year);
+                
+                const formattedDay = day.toString().padStart(2, '0');
+                const formattedMonth = (month + 1).toString().padStart(2, '0');
+                
+                currentActiveInput.value = `${formattedDay}/${formattedMonth}/${year}`;
+                
+                const allCells = document.querySelectorAll('.calendar td[data-date]');
+                allCells.forEach(cell => cell.classList.remove('selected'));
+                event.target.classList.add('selected');
+                
+                setTimeout(() => {
+                    calendarContainer.style.display = 'none';
+                    currentActiveInput = null;
+                    
+                    // Clean up mobile backdrop and body scroll
+                    const backdrop = document.querySelector('.calendar-backdrop');
+                    if (backdrop) {
+                        backdrop.classList.remove('active');
+                    }
+                    document.body.style.overflow = '';
+                }, 200);
+            }
+        }
+
+        function positionCalendar(inputElement) {
+            const viewportWidth = window.innerWidth;
+            
+            // Mobile positioning (fixed center)
+            if (viewportWidth <= 768) {
+                // Create backdrop for mobile
+                let backdrop = document.querySelector('.calendar-backdrop');
+                if (!backdrop) {
+                    backdrop = document.createElement('div');
+                    backdrop.className = 'calendar-backdrop';
+                    document.body.appendChild(backdrop);
+                    
+                    // Close calendar when backdrop is clicked
+                    backdrop.addEventListener('click', () => {
+                        calendarContainer.style.display = 'none';
+                        backdrop.classList.remove('active');
+                        currentActiveInput = null;
+                    });
+                }
+                
+                // Show backdrop and calendar
+                backdrop.classList.add('active');
+                calendarContainer.style.display = 'block';
+                
+                // Prevent body scroll when calendar is open
+                document.body.style.overflow = 'hidden';
+                
+                // Close calendar when escape is pressed
+                const handleEscape = (e) => {
+                    if (e.key === 'Escape') {
+                        calendarContainer.style.display = 'none';
+                        backdrop.classList.remove('active');
+                        document.body.style.overflow = '';
+                        currentActiveInput = null;
+                        document.removeEventListener('keydown', handleEscape);
+                    }
+                };
+                document.addEventListener('keydown', handleEscape);
+                
+            } else {
+                // Desktop positioning (original logic)
+                const parentRect = inputElement.closest('.custom-date-input').getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const calendarHeight = 400; // Approximate calendar height
+                const calendarWidth = 350;
+                
+                let top = parentRect.bottom + 10;
+                let left = parentRect.left - 80; // Move calendar significantly to the left of the input
+                
+                // Adjust if calendar would go below viewport
+                if (top + calendarHeight > viewportHeight) {
+                    top = parentRect.top - calendarHeight - 5;
+                }
+                
+                // Adjust if calendar would go outside viewport horizontally
+                if (left < 20) {
+                    left = 20; // Minimum distance from left edge
+                } else if (left + calendarWidth > viewportWidth - 10) {
+                    left = viewportWidth - calendarWidth - 10;
+                }
+                
+                calendarContainer.style.top = top + 'px';
+                calendarContainer.style.left = left + 'px';
+                calendarContainer.style.display = 'block';
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 MC Analytics Dashboard initialized');
+            
+            // Set default dates (current year)
+            const currentYear = new Date().getFullYear();
+            startDateInput.value = `01/07/${currentYear}`;
+            endDateInput.value = `01/06/${currentYear+1}`;
+            
+            // Add event listeners
+            loadBtn.addEventListener('click', loadAnalytics);
+            
+            // Calendar event listeners
+            startDateInput.addEventListener('focus', () => {
+                currentActiveInput = startDateInput;
+                positionCalendar(startDateInput);
+                renderCalendar();
+            });
+            
+            // Add touch support for mobile
+            startDateInput.addEventListener('touchstart', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault(); // Prevent virtual keyboard
+                    currentActiveInput = startDateInput;
+                    positionCalendar(startDateInput);
+                    renderCalendar();
+                }
+            });
+            
+            endDateInput.addEventListener('focus', () => {
+                currentActiveInput = endDateInput;
+                positionCalendar(endDateInput);
+                renderCalendar();
+            });
+            
+            // Add touch support for mobile
+            endDateInput.addEventListener('touchstart', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault(); // Prevent virtual keyboard
+                    currentActiveInput = endDateInput;
+                    positionCalendar(endDateInput);
+                    renderCalendar();
+                }
+            });
+            
+            // Close calendar when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!calendarContainer.contains(event.target) && 
+                    event.target !== startDateInput && 
+                    event.target !== endDateInput &&
+                    !event.target.closest('.custom-date-input')) {
+                    calendarContainer.style.display = 'none';
+                    currentActiveInput = null;
+                    
+                    // Clean up mobile backdrop and body scroll
+                    const backdrop = document.querySelector('.calendar-backdrop');
+                    if (backdrop) {
+                        backdrop.classList.remove('active');
+                    }
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Calendar navigation
+            prevMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+            
+            nextMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+            
+            // Initialize calendar
+            renderCalendar();
+
+            // Initialize combined chart
+            initializeCombinedChart();
+            
+            // Load initial data
+            loadAnalytics();
+        });
+
+        // Show status message
+        function showStatus(message, type = 'loading') {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.style.display = 'block';
+            
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Hide status message
+        function hideStatus() {
+            statusMessage.style.display = 'none';
+        }
+
+        // Validate date format (DD/MM/YYYY)
+        function isValidDate(dateString) {
+            const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+            return regex.test(dateString);
+        }
+
+        // Load analytics data
+        async function loadAnalytics() {
+            if (isLoading) return;
+            
+            const startDate = startDateInput.value.trim();
+            const endDate = endDateInput.value.trim();
+            
+            // Validate inputs
+            if (!startDate || !endDate) {
+                showStatus('Please enter both start and end dates', 'error');
+                return;
+            }
+            
+            if (!isValidDate(startDate) || !isValidDate(endDate)) {
+                showStatus('Please enter dates in DD/MM/YYYY format', 'error');
+                return;
+            }
+            
+            console.log(`📅 Loading analytics for ${startDate} to ${endDate}`);
+            
+            // Set loading state
+            isLoading = true;
+            loadBtn.disabled = true;
+            loadBtn.textContent = 'Loading...';
+            showStatus('Loading analytics data...', 'loading');
+            
+            try {
+                const response = await fetch('/api/mc-analytics/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCsrfToken()
+                    },
+                    body: JSON.stringify({
+                        start_date: startDate,
+                        end_date: endDate
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success && result.data) {
+                    console.log('✅ Data loaded successfully:', result.data);
+                    updateTables(result.data);
+                    showStatus('Analytics data updated successfully!', 'success');
+                } else {
+                    throw new Error('Invalid response format or no data');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error loading analytics:', error);
+                showStatus(`Error loading data: ${error.message}`, 'error');
+            } finally {
+                // Reset loading state
+                isLoading = false;
+                loadBtn.disabled = false;
+                loadBtn.textContent = 'Load Analytics';
+            }
+        }
+
+        // Update all tables with new data
+        function updateTables(data) {
+            console.log('📊 Updating tables with data:', data);
+            
+            // Update OGX table
+            updateOGXTable(data.ogx || {});
+            
+            // Update ICX table  
+            updateICXTable(data.icx || {});
+            
+            // Update process times
+            updateProcessTimes(data.process_times || {});
+            
+            // Update timeline charts
+            updateTimelineCharts();
+        }
+
+        // Chart instances storage
+        const chartInstances = {
+            combined: null
+        };
+
+        // Combined chart data storage
+        let combinedTimelineData = {};
+
+        // Combined Chart Functions
+        function initializeCombinedChart() {
+            const ctx = document.getElementById('combinedTimelineChart');
+            if (!ctx) return;
+
+            // Add event listeners for dropdowns
+            document.getElementById('programme-select').addEventListener('change', updateCombinedChart);
+            document.getElementById('stage-select').addEventListener('change', updateCombinedChart);
+        }
+
+        function createCombinedChart() {
+            const ctx = document.getElementById('combinedTimelineChart');
+            if (!ctx) return;
+
+            if (chartInstances.combined) {
+                chartInstances.combined.destroy();
+            }
+
+            chartInstances.combined = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Combined Timeline Analytics',
+                            font: {
+                                size: 18,
+                                weight: 'bold',
+                                family: 'Montserrat-Regular'
+                            },
+                            color: '#2c3e50',
+                            padding: 20
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                font: {
+                                    family: 'Montserrat-Regular',
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#fff',
+                            borderWidth: 2,
+                            cornerRadius: 8,
+                            padding: 12
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month',
+                                font: {
+                                    family: 'Montserrat-Regular',
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Count',
+                                font: {
+                                    family: 'Montserrat-Regular',
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCombinedChart() {
+            if (!chartInstances.combined || !combinedTimelineData) return;
+
+            const selectedProgramme = document.getElementById('programme-select').value;
+            const selectedStage = document.getElementById('stage-select').value;
+
+            const datasets = [];
+            
+            // Get selected date range for filtering
+            const startDateStr = startDateInput.value.trim();
+            const endDateStr = endDateInput.value.trim();
+            
+            let startDate = null;
+            let endDate = null;
+            
+            if (startDateStr && endDateStr) {
+                // Convert DD/MM/YYYY to YYYY-MM-DD for comparison
+                const convertToComparableDate = (dateStr) => {
+                    const [day, month, year] = dateStr.split('/');
+                    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                };
+                
+                startDate = convertToComparableDate(startDateStr);
+                endDate = convertToComparableDate(endDateStr);
+                
+                console.log(`🔍 Date filtering: ${startDateStr} (${startDate}) to ${endDateStr} (${endDate})`);
+            }
+
+            // Programme colors
+            const programmeColors = {
+                'OGV': '#3498db',
+                'OGTa': '#e74c3c', 
+                'OGTe': '#f39c12',
+                'IGV': '#9b59b6',
+                'IGTa': '#1abc9c'
+            };
+
+            // Stage colors
+            const stageColors = {
+                'SU': '#1f77b4',
+                'APP': '#ff7f0e',
+                'ACC': '#2ca02c',
+                'APD': '#d62728',
+                'REA': '#9467bd'
+            };
+
+            // Collect all dates from all programmes and filter by date range
+            const allDates = new Set();
+            let totalDatesBeforeFilter = 0;
+            let totalDatesAfterFilter = 0;
+            
+            Object.keys(combinedTimelineData).forEach(programme => {
+                if (combinedTimelineData[programme] && combinedTimelineData[programme].timeline) {
+                    totalDatesBeforeFilter += combinedTimelineData[programme].timeline.length;
+                    combinedTimelineData[programme].timeline.forEach(item => {
+                        // Backend returns YYYY-MM format, convert start/end dates to same format for comparison
+                        if (startDate && endDate) {
+                            // Convert YYYY-MM-DD to YYYY-MM for comparison
+                            const startMonth = startDate.substring(0, 7); // "2025-07-01" -> "2025-07"
+                            const endMonth = endDate.substring(0, 7); // "2026-06-01" -> "2026-06"
+                            const itemMonth = item.date; // Already in YYYY-MM format
+                            
+                            if (itemMonth >= startMonth && itemMonth <= endMonth) {
+                                allDates.add(item.date);
+                                totalDatesAfterFilter++;
+                            }
+                        } else {
+                            allDates.add(item.date);
+                            totalDatesAfterFilter++;
+                        }
+                    });
+                }
+            });
+
+            const sortedDates = Array.from(allDates).sort();
+            
+            console.log(`📅 Date filtering results:`);
+            console.log(`   Filter range: ${startDate} to ${endDate}`);
+            console.log(`   Total dates before filter: ${totalDatesBeforeFilter}`);
+            console.log(`   Total dates after filter: ${totalDatesAfterFilter}`);
+            console.log(`   Unique dates found: ${sortedDates.length}`);
+            console.log(`   First 5 dates:`, sortedDates.slice(0, 5));
+            console.log(`   Last 5 dates:`, sortedDates.slice(-5));
+            
+            // Helper function to get data by date
+            function getDataByDate(timelineData, stage) {
+                const dateData = {};
+                
+                timelineData.forEach(item => {
+                    // Backend returns YYYY-MM format, convert start/end dates to same format for comparison
+                    if (startDate && endDate) {
+                        // Convert YYYY-MM-DD to YYYY-MM for comparison
+                        const startMonth = startDate.substring(0, 7); // "2025-07-01" -> "2025-07"
+                        const endMonth = endDate.substring(0, 7); // "2026-06-01" -> "2026-06"
+                        const itemMonth = item.date; // Already in YYYY-MM format
+                        
+                        if (itemMonth >= startMonth && itemMonth <= endMonth) {
+                            dateData[item.date] = item[stage] || 0;
+                        }
+                    } else {
+                        dateData[item.date] = item[stage] || 0;
+                    }
+                });
+                
+                return dateData;
+            }
+
+            // Filter data based on selections
+            if (selectedProgramme === 'ALL' && selectedStage === 'ALL') {
+                // Show all programmes and stages
+                Object.keys(combinedTimelineData).forEach(programme => {
+                    if (!combinedTimelineData[programme] || !combinedTimelineData[programme].timeline) return;
+
+                    ['SU', 'APP', 'ACC', 'APD', 'REA'].forEach(stage => {
+                        if (stage === 'SU' && !['OGV', 'OGTa', 'OGTe'].includes(programme)) return;
+
+                        const dateData = getDataByDate(combinedTimelineData[programme].timeline, stage);
+                        const dataPoints = [];
+
+                        sortedDates.forEach(date => {
+                            const value = dateData[date] || 0;
+                            dataPoints.push(value);
+                        });
+
+                        if (dataPoints.some(point => point > 0)) {
+                            datasets.push({
+                                label: `${programme} - ${stage}`,
+                                data: dataPoints,
+                                borderColor: programmeColors[programme] || '#95a5a6',
+                                backgroundColor: `${programmeColors[programme] || '#95a5a6'}20`,
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.1,
+                                pointRadius: 3,
+                                pointHoverRadius: 5
+                            });
+                        }
+                    });
+                });
+            } else if (selectedProgramme !== 'ALL' && selectedStage === 'ALL') {
+                // Show all stages for selected programme
+                if (combinedTimelineData[selectedProgramme] && combinedTimelineData[selectedProgramme].timeline) {
+                    ['SU', 'APP', 'ACC', 'APD', 'REA'].forEach(stage => {
+                        if (stage === 'SU' && !['OGV', 'OGTa', 'OGTe'].includes(selectedProgramme)) return;
+
+                        const dateData = getDataByDate(combinedTimelineData[selectedProgramme].timeline, stage);
+                        const dataPoints = [];
+
+                        sortedDates.forEach(date => {
+                            const value = dateData[date] || 0;
+                            dataPoints.push(value);
+                        });
+
+                        if (dataPoints.some(point => point > 0)) {
+                            datasets.push({
+                                label: `${selectedProgramme} - ${stage}`,
+                                data: dataPoints,
+                                borderColor: stageColors[stage] || '#95a5a6',
+                                backgroundColor: `${stageColors[stage] || '#95a5a6'}20`,
+                                borderWidth: 3,
+                                fill: false,
+                                tension: 0.1,
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            });
+                        }
+                    });
+                }
+            } else if (selectedProgramme === 'ALL' && selectedStage !== 'ALL') {
+                // Show selected stage for all programmes
+                Object.keys(combinedTimelineData).forEach(programme => {
+                    if (!combinedTimelineData[programme] || !combinedTimelineData[programme].timeline) return;
+                    if (selectedStage === 'SU' && !['OGV', 'OGTa', 'OGTe'].includes(programme)) return;
+
+                    const monthlyData = groupDataByMonth(combinedTimelineData[programme].timeline, selectedStage);
+                    const dateData = getDataByDate(combinedTimelineData[programme].timeline, selectedStage);
+                    const dataPoints = [];
+
+                    sortedDates.forEach(date => {
+                        const value = dateData[date] || 0;
+                        dataPoints.push(value);
+                    });
+
+                    if (dataPoints.some(point => point > 0)) {
+                        datasets.push({
+                            label: `${programme} - ${selectedStage}`,
+                            data: dataPoints,
+                            borderColor: programmeColors[programme] || '#95a5a6',
+                            backgroundColor: `${programmeColors[programme] || '#95a5a6'}20`,
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        });
+                    }
+                });
+            } else {
+                // Show specific programme and stage
+                if (combinedTimelineData[selectedProgramme] && combinedTimelineData[selectedProgramme].timeline) {
+                    if (!(selectedStage === 'SU' && !['OGV', 'OGTa', 'OGTe'].includes(selectedProgramme))) {
+                        const dateData = getDataByDate(combinedTimelineData[selectedProgramme].timeline, selectedStage);
+                        const dataPoints = [];
+
+                        sortedDates.forEach(date => {
+                            const value = dateData[date] || 0;
+                            dataPoints.push(value);
+                        });
+
+                        if (dataPoints.some(point => point > 0)) {
+                            datasets.push({
+                                label: `${selectedProgramme} - ${selectedStage}`,
+                                data: dataPoints,
+                                borderColor: programmeColors[selectedProgramme] || '#95a5a6',
+                                backgroundColor: `${programmeColors[selectedProgramme] || '#95a5a6'}20`,
+                                borderWidth: 4,
+                                fill: false,
+                                tension: 0.1,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            });
+                        }
+                    }
+                }
+            }
+
+            chartInstances.combined.data.labels = sortedDates;
+            chartInstances.combined.data.datasets = datasets;
+            chartInstances.combined.update();
+        }
+
+        // Helper function to get stage colors
+        function getStageColor(stage) {
+            const colors = {
+                SU: "#1f77b4",   // blue
+                APP: "#ff7f0e",  // orange
+                ACC: "#2ca02c",  // green
+                APD: "#d62728",  // red
+                REA: "#9467bd",  // purple
+                FIN: "#8c564b",  // brown
+                COMP: "#17becf"  // teal
+            };
+            return colors[stage] || "#333";
+        }
+
+
+
+        // Update timeline charts
+        async function updateTimelineCharts() {
+            console.log('📈 Updating combined timeline chart...');
+            
+            const startDate = startDateInput.value.trim();
+            const endDate = endDateInput.value.trim();
+            
+            // Convert DD/MM/YYYY to YYYY-MM-DD for API
+            const convertDateFormat = (dateStr) => {
+                const [day, month, year] = dateStr.split('/');
+                return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            };
+            
+            const startDateFormatted = convertDateFormat(startDate);
+            const endDateFormatted = convertDateFormat(endDate);
+            
+            try {
+                // Fetch timeline data for all programmes
+                const [ogvData, ogtaData, ogteData, igvData, igtaData] = await Promise.all([
+                    fetch(`/api/ogv-timeline/?start_date=${startDateFormatted}&end_date=${endDateFormatted}`).then(r => r.json()),
+                    fetch(`/api/ogta-timeline/?start_date=${startDateFormatted}&end_date=${endDateFormatted}`).then(r => r.json()),
+                    fetch(`/api/ogte-timeline/?start_date=${startDateFormatted}&end_date=${endDateFormatted}`).then(r => r.json()),
+                    fetch(`/api/igv-timeline/?start_date=${startDateFormatted}&end_date=${endDateFormatted}`).then(r => r.json()),
+                    fetch(`/api/igta-timeline/?start_date=${startDateFormatted}&end_date=${endDateFormatted}`).then(r => r.json())
+                ]);
+
+
+
+                // Store data for combined chart
+                combinedTimelineData = {
+                    'OGV': ogvData,
+                    'OGTa': ogtaData,
+                    'OGTe': ogteData,
+                    'IGV': igvData,
+                    'IGTa': igtaData
+                };
+                
+                // Debug: Log sample data to see format
+                console.log('📊 Timeline data sample:', {
+                    dateRange: `${startDateFormatted} to ${endDateFormatted}`,
+                    ogvSample: ogvData?.timeline?.slice(0, 3),
+                    totalOgvDates: ogvData?.timeline?.length
+                });
+
+                // Create or update combined chart
+                if (!chartInstances.combined) {
+                    createCombinedChart();
+                }
+                updateCombinedChart();
+
+                console.log('✅ Combined timeline chart updated successfully');
+                
+            } catch (error) {
+                console.error('❌ Error updating combined timeline chart:', error);
+            }
+        }
+
+        // Update OGX table
+        function updateOGXTable(ogxData) {
+            console.log('🔄 Updating OGX table:', ogxData);
+            
+            const table = document.getElementById('ogx-table');
+            const rows = table.querySelectorAll('tbody tr');
+            
+            const programmes = ['OGV', 'OGTa', 'OGTe'];
+            
+            programmes.forEach((programme, index) => {
+                if (rows[index] && ogxData[programme]) {
+                    const data = ogxData[programme];
+                    const cells = rows[index].querySelectorAll('td');
+                    
+                    if (cells.length >= 8) {
+                        cells[1].textContent = data.signups || 0;
+                        cells[2].textContent = data.applied || 0;
+                        cells[3].textContent = data.accepted || 0;
+                        cells[4].textContent = data.approved || 0;
+                        cells[5].textContent = data.realized || 0;
+                        cells[6].textContent = data.finished || 0;
+                        cells[7].textContent = data.complete || 0;
+                    }
+                }
+            });
+        }
+
+        // Update ICX table
+        function updateICXTable(icxData) {
+            console.log('🔄 Updating ICX table:', icxData);
+            
+            const table = document.getElementById('icx-table');
+            const rows = table.querySelectorAll('tbody tr');
+            
+            const programmes = ['IGV', 'IGTa'];
+            
+            programmes.forEach((programme, index) => {
+                if (rows[index] && icxData[programme]) {
+                    const data = icxData[programme];
+                    const cells = rows[index].querySelectorAll('td');
+                    
+                    if (cells.length >= 7) {
+                        cells[1].textContent = data.applied || 0;
+                        cells[2].textContent = data.accepted || 0;
+                        cells[3].textContent = data.approved || 0;
+                        cells[4].textContent = data.realized || 0;
+                        cells[5].textContent = data.finished || 0;
+                        cells[6].textContent = data.complete || 0;
+                    }
+                }
+            });
+        }
+
+        // Update process times tables
+        function updateProcessTimes(processData) {
+            console.log('⏱️ Updating process times:', processData);
+            
+            // Update OGX process times
+            if (processData.ogx) {
+                const ogxTable = document.getElementById('ogx-process-table');
+                const ogxRows = ogxTable.querySelectorAll('tbody tr');
+                const ogxProgrammes = ['OGV', 'OGTa', 'OGTe'];
+                
+                ogxProgrammes.forEach((programme, index) => {
+                    if (ogxRows[index] && processData.ogx[programme]) {
+                        const times = processData.ogx[programme];
+                        const cells = ogxRows[index].querySelectorAll('td');
+                        
+                        if (cells.length >= 5) {
+                            cells[1].textContent = Math.round(times.signup_to_app || 0);
+                            cells[2].textContent = Math.round(times.app_to_acc || 0);
+                            cells[3].textContent = Math.round(times.acc_to_apd || 0);
+                            cells[4].textContent = Math.round(times.total || 0);
+                        }
+                    }
+                });
+            }
+            
+            // Update ICX process times
+            if (processData.icx) {
+                const icxTable = document.getElementById('icx-process-table');
+                const icxRows = icxTable.querySelectorAll('tbody tr');
+                const icxProgrammes = ['IGV', 'IGTa'];
+                
+                icxProgrammes.forEach((programme, index) => {
+                    if (icxRows[index] && processData.icx[programme]) {
+                        const times = processData.icx[programme];
+                        const cells = icxRows[index].querySelectorAll('td');
+                        
+                        if (cells.length >= 4) {
+                            cells[1].textContent = Math.round(times.app_to_acc || 0);
+                            cells[2].textContent = Math.round(times.acc_to_apd || 0);
+                            cells[3].textContent = Math.round(times.total || 0);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Get CSRF token for Django
+        function getCsrfToken() {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'csrftoken') {
+                    return value;
+                }
+            }
+            return '';
+        }
+    </script>
+    
+    <footer class="footer">
+        <p>Made with 💙, Powered by AIESEC in Greece, Developed by Mahmoud Fouda</p>
+    </footer>
+</body>
+</html>
