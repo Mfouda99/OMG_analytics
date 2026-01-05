@@ -10,18 +10,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @font-face {
-            font-family: 'Montserrat-Regular';
-            src: url("{% static 'fonts/Montserrat-Regular.ttf' %}") format('truetype');
+            font-family: 'CustomFont';
+            src: url("/static/fonts/custom-font.ttf") format('truetype');
         }
         
         @font-face {
-            font-family: 'Gelio _Fasolada';
-            src: url("{% static 'fonts/Gelio _Fasolada.ttf' %}") format('truetype');
+            font-family: 'Greek-Freak';
+            src: url("/static/fonts/Greek-Freak.ttf") format('truetype');
         }
         
         @font-face {
-            font-family: 'Montserrat-Regular';
-            src: url("{% static 'fonts/Montserrat-Regular.ttf' %}") format('truetype');
+            font-family: 'BebasNeue';
+            src: url("/static/fonts/BebasNeue-Regular.ttf") format('truetype');
         }
 
         * {
@@ -31,8 +31,8 @@
         }
 
         body {
-            font-family: 'Montserrat-Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #037EF3;
+            font-family: 'BebasNeue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgb(15, 58, 138);
             min-height: 100vh;
             padding-top: 80px;
           
@@ -45,10 +45,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: #037EF3;
+            background: rgba(30, 60, 114, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 3px solid #fff;
+            border-bottom: 3px solid rgba(212, 175, 55, 0.9);
             z-index: 1000;
             padding: 0 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -64,9 +64,9 @@
         }
 
         .navbar-logo {
-            font-family: 'Gelio _Fasolada';
+            font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
             font-size: 2rem;
-            color: #fff;
+            color: #d4af37;
             text-decoration: none;
             font-weight: bold;
             letter-spacing: 2px;
@@ -88,7 +88,7 @@
         .navbar-link {
             color: white;
             text-decoration: none;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             font-size: 1.1rem;
             letter-spacing: 1px;
             padding: 15px 20px;
@@ -99,17 +99,17 @@
         }
 
         .navbar-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.6);
-            color: #fff;
+            background: rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.6);
+            color: #d4af37;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
         .navbar-link.active {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: #fff;
-            color: #fff;
+            background: rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+            color: #d4af37;
         }
 
         .dropdown {
@@ -120,10 +120,10 @@
             position: absolute;
             top: 100%;
             left: 0;
-            background: #037EF3;
+            background: rgba(30, 60, 114, 0.98);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(212, 175, 55, 0.6);
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             opacity: 0;
@@ -165,7 +165,7 @@
         }
 
         .dropdown-menu .navbar-link:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(212, 175, 55, 0.25);
             transform: none;
             box-shadow: none;
         }
@@ -191,14 +191,14 @@
                 top: 70px;
                 left: 0;
                 width: 100%;
-                background: #037EF3;
+                background: rgba(30, 60, 114, 0.98);
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
                 flex-direction: column;
                 padding: 20px 0;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
-                border-bottom: 3px solid #fff;
+                border-bottom: 3px solid rgba(212, 175, 55, 0.9);
                 height:1000px;
             }
 
@@ -223,9 +223,9 @@
                 max-height: 0;
                 overflow: hidden;
                 transform: none;
-                background: rgba(3, 126, 243, 0.9);
+                background: rgba(15, 45, 100, 0.9);
                 border: none;
-                border-top: 1px solid rgba(255, 255, 255, 0.3);
+                border-top: 1px solid rgba(212, 175, 55, 0.3);
                 border-radius: 0;
                 box-shadow: none;
                 transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
@@ -246,7 +246,7 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 4px solid #fff;
+            border: 4px solid rgba(212, 175, 55, 0.9);
             border-radius: 25px;
             box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3),
                         0 10px 20px rgba(0, 0, 0, 0.2),
@@ -256,13 +256,13 @@
         }
 
         .header {
-            background: linear-gradient(135deg, rgba(3, 126, 243, 0.9), rgba(3, 126, 243, 0.9));
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             color: white;
             padding: 40px 30px;
             text-align: center;
-            border-bottom: 4px solid #fff;
+            border-bottom: 4px solid rgba(212, 175, 55, 0.9);
             position: relative;
             overflow: hidden;
         }
@@ -275,7 +275,7 @@
             transform: translateX(-50%);
             height: 3px;
             width: 60%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.7), transparent);
         }
         
         .header::before {
@@ -290,8 +290,8 @@
             font-size: 4rem;
             margin-bottom: 10px;
             font-weight: 300;
-            font-family: 'Gelio _Fasolada', Arial, sans-serif;
-            color: #fff;
+            font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
+            color: #d4af37;
             letter-spacing: 3px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
@@ -299,7 +299,7 @@
         .header p {
             font-size: 1.3rem;
             opacity: 0.9;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 1px;
         }
 
@@ -308,7 +308,7 @@
             background: rgba(248, 249, 250, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
             position: relative;
         }
 
@@ -322,7 +322,7 @@
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 2px;
         }
 
@@ -331,7 +331,7 @@
             display: block;
             width: 60px;
             height: 4px;
-            background: #037EF3;
+            background: linear-gradient(90deg, #d4af37, rgba(212, 175, 55, 0.7));
             margin: 10px auto;
             border-radius: 2px;
         }
@@ -355,7 +355,7 @@
             transform: translateX(-50%);
             width: 80%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
         }
         
         .date-selector::before {
@@ -377,18 +377,18 @@
         .date-group label {
             font-weight: 600;
             color: #2c3e50;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             font-size: 1.2rem;
             letter-spacing: 1px;
             margin-bottom: 5px;
         }
 
         .load-btn {
-            background: rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(180, 140, 40, 0.9));
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            color: #2c3e50;
-            border: 2px solid #037EF3;
+            color: white;
+            border: none;
             padding: 15px 35px;
             border-radius: 8px;
             font-size: 1.2rem;
@@ -397,8 +397,8 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
-            font-family: 'Montserrat-Regular';
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 1px;
             align-self: end;
             margin-bottom: 5px;
@@ -406,10 +406,8 @@
         }
 
         .load-btn:hover {
-            background: #b9d9f8ff;
-            border-color: #037EF3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px #ffffff98;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
         }
 
         .load-btn:disabled {
@@ -427,21 +425,21 @@
         .date-input {
             width: 100%;
             padding: 12px 40px 12px 15px;
-            border: 2px solid rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(212, 175, 55, 0.7);
             border-radius: 8px;
             font-size: 16px;
             color: #333;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 1px;
         }
 
         .date-input:focus {
             outline: none;
-            border-color: #fff;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
         }
 
         .dropdown-arrow {
@@ -449,7 +447,7 @@
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #000000;
+            color: rgba(212, 175, 55, 0.9);
             font-size: 18px;
             pointer-events: none;
         }
@@ -483,15 +481,15 @@
             font-size: 18px;
             color: #2c3e50;
             padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
             font-weight: bold;
         }
 
         .calendar-header button {
-            background: rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.8), rgba(180, 140, 40, 0.8));
             border: none;
             font-size: 18px;none
-            color: #2c3e50;
+            color: white;
             cursor: pointer;
             padding: 8px 12px;
             border-radius: 5px;
@@ -500,17 +498,15 @@
         }
 
         .calendar-header button:hover {
-            background: #b9d9f8ff;
-            border-color: #037EF3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px #ffffff98;
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
         }
 
         .month-year {
             font-weight: bold;
             letter-spacing: 1px;
-            color: #037EF3 ;
-                        font-family: 'Gelio _Fasolada', Arial, sans-serif;
+            color: #d4af37;
+                        font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
 
         }
 
@@ -527,7 +523,7 @@
             font-size: 14px;
             padding: 0;
             line-height: 40px;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             font-weight: bold;
         }
 
@@ -549,19 +545,19 @@
         }
 
         .calendar td:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(212, 175, 55, 0.2);
             transform: scale(1.1);
         }
 
         .calendar td.selected {
-            background-color: #fff;
+            background-color: #d4af37;
             color: white;
             font-weight: bold;
             transform: scale(1.1);
         }
 
         .calendar td.today {
-            background-color: rgba(3, 126, 243, 0.8);
+            background-color: rgba(30, 60, 114, 0.8);
             color: white;
             font-weight: bold;
         }
@@ -582,7 +578,7 @@
             -webkit-backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.3);
             max-height: 600px;
             display: flex;
             flex-direction: column;
@@ -594,7 +590,7 @@
             color: #2c3e50;
             text-align: center;
             margin-bottom: 25px;
-            font-family: 'Gelio _Fasolada', Arial, sans-serif;
+            font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
             letter-spacing: 2px;
             position: relative;
         }
@@ -604,7 +600,7 @@
             display: block;
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.8), rgba(180, 140, 40, 0.8));
             margin: 15px auto;
             border-radius: 2px;
         }
@@ -614,10 +610,10 @@
             overflow-y: auto;
             overflow-x: auto;
             border-radius: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(212, 175, 55, 0.4);
             background: rgba(255, 255, 255, 0.95);
             scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.8) rgba(255, 255, 255, 0.1);
+            scrollbar-color: rgba(212, 175, 55, 0.8) rgba(255, 255, 255, 0.1);
         }
 
         .table-wrapper::-webkit-scrollbar {
@@ -631,31 +627,31 @@
         }
 
         .table-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(212, 175, 55, 0.8);
             border-radius: 4px;
         }
 
         .table-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 1);
+            background: rgba(212, 175, 55, 1);
         }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             font-size: 1rem;
             letter-spacing: 0.5px;
         }
 
         .data-table th {
-            background: linear-gradient(135deg, #037EF3, #037EF3);
-            color: #fff;
+            background: linear-gradient(135deg, rgb(30, 60, 114), rgb(42, 82, 152));
+            color: #d4af37;
             padding: 15px 12px;
             text-align: center;
             font-weight: 600;
             font-size: 1.1rem;
             letter-spacing: 1px;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+            border-bottom: 3px solid rgba(212, 175, 55, 0.6);
             position: sticky;
             top: 0;
             z-index: 10;
@@ -673,7 +669,7 @@
         .data-table td {
             padding: 12px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
             background: rgba(255, 255, 255, 0.9);
             color: #2c3e50;
             font-weight: 500;
@@ -681,7 +677,7 @@
         }
 
         .data-table tbody tr:hover td {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(212, 175, 55, 0.1);
             transform: scale(1.01);
         }
 
@@ -690,7 +686,7 @@
         }
 
         .data-table tbody tr:nth-child(even):hover td {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(212, 175, 55, 0.15);
         }
 
         .data-table tbody tr:last-child td {
@@ -707,7 +703,7 @@
             padding: 40px;
             font-size: 1.2rem;
             color: #666;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 1px;
         }
 
@@ -779,12 +775,12 @@
             padding: 20px;
             margin: 25px 0;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.3);
             transition: all 0.3s ease;
         }
 
         .chart-container:hover {
-            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
             transform: translateY(-3px);
         }
 
@@ -793,9 +789,9 @@
             margin-bottom: 15px;
             color: #2c3e50;
             text-align: center;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 1px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
             padding-bottom: 10px;
         }
 
@@ -809,7 +805,7 @@
         /* Combined Timeline Chart Styles */
         .combined-timeline-container {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.95));
-            border: 3px solid rgba(255, 255, 255, 0.4);
+            border: 3px solid rgba(212, 175, 55, 0.4);
             border-radius: 15px;
             padding: 25px;
             margin: 30px 0;
@@ -822,7 +818,7 @@
             padding: 20px;
             background: rgba(248, 249, 250, 0.8);
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .control-row {
@@ -844,7 +840,7 @@
         .dropdown-group label {
             font-weight: 600;
             color: #2c3e50;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             font-size: 1.1rem;
             letter-spacing: 1px;
             text-align: center;
@@ -852,12 +848,12 @@
 
         .chart-dropdown {
             padding: 10px 15px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.3);
             border-radius: 8px;
             font-size: 14px;
             color: #2c3e50;
             background: white;
-            font-family: 'Montserrat-Regular';
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -869,13 +865,13 @@
 
         .chart-dropdown:focus {
             outline: none;
-            border-color: #fff;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
             transform: translateY(-1px);
         }
 
         .chart-dropdown:hover {
-            border-color: rgba(255, 255, 255, 0.6);
+            border-color: rgba(212, 175, 55, 0.6);
             background: rgba(248, 249, 250, 0.5);
         }
 
@@ -921,7 +917,7 @@
                 padding: 15px !important;
                 margin: 0 !important;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-                border: 2px solid rgba(255, 255, 255, 0.6) !important;
+                border: 2px solid rgba(212, 175, 55, 0.6) !important;
             }
 
             .calendar-header {
@@ -956,12 +952,12 @@
             }
 
             .calendar td:hover {
-                background-color: rgba(255, 255, 255, 0.3) !important;
+                background-color: rgba(212, 175, 55, 0.3) !important;
                 transform: none !important;
             }
 
             .calendar td:active {
-                background-color: rgba(255, 255, 255, 0.5) !important;
+                background-color: rgba(212, 175, 55, 0.5) !important;
                 transform: scale(0.95) !important;
             }
 
@@ -1059,13 +1055,13 @@
         
          /* Footer Styles */
         .footer {
-            background: linear-gradient(135deg, #037EF3, rgba(3, 126, 243, 0.95));
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.95), rgba(42, 82, 152, 0.95));
             color: white;
             text-align: center;
             padding: 25px 20px;
             margin-top: 50px;
-            border-top: 3px solid rgba(255, 255, 255, 0.8);
-            font-family: 'Montserrat-Regular';
+            border-top: 3px solid rgba(212, 175, 55, 0.8);
+            font-family: 'BebasNeue', sans-serif;
             letter-spacing: 1px;
             position: relative;
             backdrop-filter: blur(10px);
@@ -1080,7 +1076,7 @@
             transform: translateX(-50%);
             width: 60%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.7), transparent);
         }
         
         .footer p {
@@ -1104,9 +1100,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="navbar-container">
-            <a href="/" class="navbar-logo">
-                <img src="{% static 'images/White-Blue-Logo.png' %}" alt="OMG Analytics" style="height: 40px; width: auto;">
-            </a>
+            <a href="/" class="navbar-logo">OMG Analytics</a>
             
             <ul class="navbar-menu" id="navbar-menu">
                 <li class="navbar-item">
@@ -1319,9 +1313,9 @@
                 <h2 class="section-title">Timeline Analytics (Based on Selected Date Range)</h2>
                 
                 <!-- Combined Timeline Chart Section -->
-                <div class="section-divider" style="margin: 40px 0; border-top: 2px solid rgba(255, 255, 255, 0.3);"></div>
+                <div class="section-divider" style="margin: 40px 0; border-top: 2px solid rgba(212, 175, 55, 0.3);"></div>
                 
-                <h3 style="text-align: center; margin: 30px 0 20px; color: #2c3e50; font-family: 'Montserrat-Regular'; font-size: 1.8rem; letter-spacing: 1px;">📊 Combined Timeline Overview</h3>
+                <h3 style="text-align: center; margin: 30px 0 20px; color: #2c3e50; font-family: 'BebasNeue', sans-serif; font-size: 1.8rem; letter-spacing: 1px;">📊 Combined Timeline Overview</h3>
                 
                 <div class="chart-container combined-timeline-container">
                     <div class="combined-chart-controls">
@@ -1613,10 +1607,26 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 MC Analytics Dashboard initialized');
             
-            // Set default dates (current year)
-            const currentYear = new Date().getFullYear();
-            startDateInput.value = `01/07/${currentYear}`;
-            endDateInput.value = `01/06/${currentYear+1}`;
+            // Set default dates based on MC term (July 1 - June 30)
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth() + 1; // getMonth() is 0-indexed
+            
+            // If current month is July (7) or later, term is current year to next year
+            // If current month is before July (1-6), term is previous year to current year
+            let termStartYear, termEndYear;
+            if (currentMonth >= 7) {
+                termStartYear = currentYear;
+                termEndYear = currentYear + 1;
+            } else {
+                termStartYear = currentYear - 1;
+                termEndYear = currentYear;
+            }
+            
+            startDateInput.value = `01/07/${termStartYear}`;
+            endDateInput.value = `30/06/${termEndYear}`;
+            
+            console.log(`📅 MC Term: ${termStartYear}-${termEndYear} (01/07/${termStartYear} - 30/06/${termEndYear})`);
             
             // Add event listeners
             loadBtn.addEventListener('click', loadAnalytics);
@@ -1844,7 +1854,7 @@
                             font: {
                                 size: 18,
                                 weight: 'bold',
-                                family: 'Montserrat-Regular'
+                                family: 'BebasNeue'
                             },
                             color: '#2c3e50',
                             padding: 20
@@ -1856,7 +1866,7 @@
                                 usePointStyle: true,
                                 padding: 20,
                                 font: {
-                                    family: 'Montserrat-Regular',
+                                    family: 'BebasNeue',
                                     size: 12
                                 }
                             }
@@ -1865,7 +1875,7 @@
                             backgroundColor: 'rgba(0, 0, 0, 0.8)',
                             titleColor: '#fff',
                             bodyColor: '#fff',
-                            borderColor: '#fff',
+                            borderColor: '#d4af37',
                             borderWidth: 2,
                             cornerRadius: 8,
                             padding: 12
@@ -1877,7 +1887,7 @@
                                 display: true,
                                 text: 'Month',
                                 font: {
-                                    family: 'Montserrat-Regular',
+                                    family: 'BebasNeue',
                                     size: 14,
                                     weight: 'bold'
                                 }
@@ -1891,7 +1901,7 @@
                                 display: true,
                                 text: 'Count',
                                 font: {
-                                    family: 'Montserrat-Regular',
+                                    family: 'BebasNeue',
                                     size: 14,
                                     weight: 'bold'
                                 }
