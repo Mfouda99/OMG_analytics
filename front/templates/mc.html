@@ -10,18 +10,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @font-face {
-            font-family: 'CustomFont';
-            src: url("/static/fonts/custom-font.ttf") format('truetype');
+            font-family: 'Montserrat-Regular';
+            src: url("{% static 'fonts/Montserrat-Regular.ttf' %}") format('truetype');
         }
         
         @font-face {
-            font-family: 'Greek-Freak';
-            src: url("/static/fonts/Greek-Freak.ttf") format('truetype');
+            font-family: 'Gelio _Fasolada';
+            src: url("{% static 'fonts/Gelio _Fasolada.ttf' %}") format('truetype');
         }
         
         @font-face {
-            font-family: 'BebasNeue';
-            src: url("/static/fonts/BebasNeue-Regular.ttf") format('truetype');
+            font-family: 'Montserrat-Regular';
+            src: url("{% static 'fonts/Montserrat-Regular.ttf' %}") format('truetype');
         }
 
         * {
@@ -31,8 +31,8 @@
         }
 
         body {
-            font-family: 'BebasNeue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: rgb(15, 58, 138);
+            font-family: 'Montserrat-Regular', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #037EF3;
             min-height: 100vh;
             padding-top: 80px;
           
@@ -45,10 +45,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(30, 60, 114, 0.95);
+            background: #037EF3;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 3px solid rgba(212, 175, 55, 0.9);
+            border-bottom: 3px solid #fff;
             z-index: 1000;
             padding: 0 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -64,9 +64,9 @@
         }
 
         .navbar-logo {
-            font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
+            font-family: 'Gelio _Fasolada', Arial, sans-serif;
             font-size: 2rem;
-            color: #d4af37;
+            color: #fff;
             text-decoration: none;
             font-weight: bold;
             letter-spacing: 2px;
@@ -88,7 +88,7 @@
         .navbar-link {
             color: white;
             text-decoration: none;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             font-size: 1.1rem;
             letter-spacing: 1px;
             padding: 15px 20px;
@@ -99,17 +99,17 @@
         }
 
         .navbar-link:hover {
-            background: rgba(212, 175, 55, 0.2);
-            border-color: rgba(212, 175, 55, 0.6);
-            color: #d4af37;
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: #fff;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
         .navbar-link.active {
-            background: rgba(212, 175, 55, 0.3);
-            border-color: #d4af37;
-            color: #d4af37;
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #fff;
+            color: #fff;
         }
 
         .dropdown {
@@ -120,10 +120,10 @@
             position: absolute;
             top: 100%;
             left: 0;
-            background: rgba(30, 60, 114, 0.98);
+            background: #037EF3;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 2px solid rgba(212, 175, 55, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.6);
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             opacity: 0;
@@ -165,7 +165,7 @@
         }
 
         .dropdown-menu .navbar-link:hover {
-            background: rgba(212, 175, 55, 0.25);
+            background: rgba(255, 255, 255, 0.25);
             transform: none;
             box-shadow: none;
         }
@@ -198,7 +198,7 @@
                 padding: 20px 0;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
-                border-bottom: 3px solid rgba(212, 175, 55, 0.9);
+                border-bottom: 3px solid #fff;
                 height:1000px;
             }
 
@@ -223,9 +223,9 @@
                 max-height: 0;
                 overflow: hidden;
                 transform: none;
-                background: rgba(15, 45, 100, 0.9);
+                background: rgba(3, 126, 243, 0.9);
                 border: none;
-                border-top: 1px solid rgba(212, 175, 55, 0.3);
+                border-top: 1px solid rgba(255, 255, 255, 0.3);
                 border-radius: 0;
                 box-shadow: none;
                 transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
@@ -246,7 +246,7 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 4px solid rgba(212, 175, 55, 0.9);
+            border: 4px solid #fff;
             border-radius: 25px;
             box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3),
                         0 10px 20px rgba(0, 0, 0, 0.2),
@@ -256,13 +256,13 @@
         }
 
         .header {
-            background: linear-gradient(135deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+            background: linear-gradient(135deg, rgba(3, 126, 243, 0.9), rgba(3, 126, 243, 0.9));
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             color: white;
             padding: 40px 30px;
             text-align: center;
-            border-bottom: 4px solid rgba(212, 175, 55, 0.9);
+            border-bottom: 4px solid #fff;
             position: relative;
             overflow: hidden;
         }
@@ -275,23 +275,15 @@
             transform: translateX(-50%);
             height: 3px;
             width: 60%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.7), transparent);
-        }
-        
-        .header::before {
-            top: 10px;
-        }
-        
-        .header::after {
-            bottom: 10px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
         }
 
         .header h1 {
             font-size: 4rem;
             margin-bottom: 10px;
             font-weight: 300;
-            font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
-            color: #d4af37;
+            font-family: 'Gelio _Fasolada', Arial, sans-serif;
+            color: #fff;
             letter-spacing: 3px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
@@ -299,7 +291,7 @@
         .header p {
             font-size: 1.3rem;
             opacity: 0.9;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             letter-spacing: 1px;
         }
 
@@ -308,7 +300,7 @@
             background: rgba(248, 249, 250, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
         }
 
@@ -322,7 +314,7 @@
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             letter-spacing: 2px;
         }
 
@@ -331,7 +323,7 @@
             display: block;
             width: 60px;
             height: 4px;
-            background: linear-gradient(90deg, #d4af37, rgba(212, 175, 55, 0.7));
+            background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.7));
             margin: 10px auto;
             border-radius: 2px;
         }
@@ -355,7 +347,7 @@
             transform: translateX(-50%);
             width: 80%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
         }
         
         .date-selector::before {
@@ -377,18 +369,18 @@
         .date-group label {
             font-weight: 600;
             color: #2c3e50;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             font-size: 1.2rem;
             letter-spacing: 1px;
             margin-bottom: 5px;
         }
 
         .load-btn {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(180, 140, 40, 0.9));
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            color: white;
-            border: none;
+            color: #2c3e50;
+            border: 2px solid #037EF3;
             padding: 15px 35px;
             border-radius: 8px;
             font-size: 1.2rem;
@@ -397,8 +389,8 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-            font-family: 'BebasNeue', sans-serif;
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+            font-family: 'Montserrat-Regular';
             letter-spacing: 1px;
             align-self: end;
             margin-bottom: 5px;
@@ -406,8 +398,10 @@
         }
 
         .load-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+            background: #b9d9f8ff;
+            border-color: #037EF3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px #ffffff98;
         }
 
         .load-btn:disabled {
@@ -425,21 +419,21 @@
         .date-input {
             width: 100%;
             padding: 12px 40px 12px 15px;
-            border: 2px solid rgba(212, 175, 55, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.7);
             border-radius: 8px;
             font-size: 16px;
             color: #333;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             letter-spacing: 1px;
         }
 
         .date-input:focus {
             outline: none;
-            border-color: #d4af37;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            border-color: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
         }
 
         .dropdown-arrow {
@@ -447,7 +441,7 @@
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(212, 175, 55, 0.9);
+            color: #000000;
             font-size: 18px;
             pointer-events: none;
         }
@@ -481,15 +475,15 @@
             font-size: 18px;
             color: #2c3e50;
             padding-bottom: 10px;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             font-weight: bold;
         }
 
         .calendar-header button {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.8), rgba(180, 140, 40, 0.8));
+            background: rgba(255, 255, 255, 0.8);
             border: none;
             font-size: 18px;none
-            color: white;
+            color: #2c3e50;
             cursor: pointer;
             padding: 8px 12px;
             border-radius: 5px;
@@ -498,16 +492,17 @@
         }
 
         .calendar-header button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+            background: #b9d9f8ff;
+            border-color: #037EF3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px #ffffff98;
         }
 
         .month-year {
             font-weight: bold;
             letter-spacing: 1px;
-            color: #d4af37;
-                        font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
-
+            color: #037EF3;
+            font-family: 'Gelio _Fasolada', Arial, sans-serif;
         }
 
         .calendar {
@@ -523,7 +518,7 @@
             font-size: 14px;
             padding: 0;
             line-height: 40px;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             font-weight: bold;
         }
 
@@ -545,19 +540,19 @@
         }
 
         .calendar td:hover {
-            background-color: rgba(212, 175, 55, 0.2);
+            background-color: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
 
         .calendar td.selected {
-            background-color: #d4af37;
+            background-color: #fff;
             color: white;
             font-weight: bold;
             transform: scale(1.1);
         }
 
         .calendar td.today {
-            background-color: rgba(30, 60, 114, 0.8);
+            background-color: rgba(3, 126, 243, 0.8);
             color: white;
             font-weight: bold;
         }
@@ -590,7 +585,7 @@
             color: #2c3e50;
             text-align: center;
             margin-bottom: 25px;
-            font-family: 'Greek-Freak', 'BebasNeue', sans-serif;
+            font-family: 'Gelio _Fasolada', Arial, sans-serif;
             letter-spacing: 2px;
             position: relative;
         }
@@ -600,7 +595,7 @@
             display: block;
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.8), rgba(180, 140, 40, 0.8));
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
             margin: 15px auto;
             border-radius: 2px;
         }
@@ -610,10 +605,10 @@
             overflow-y: auto;
             overflow-x: auto;
             border-radius: 12px;
-            border: 2px solid rgba(212, 175, 55, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.4);
             background: rgba(255, 255, 255, 0.95);
             scrollbar-width: thin;
-            scrollbar-color: rgba(212, 175, 55, 0.8) rgba(255, 255, 255, 0.1);
+            scrollbar-color: rgba(255, 255, 255, 0.8) rgba(255, 255, 255, 0.1);
         }
 
         .table-wrapper::-webkit-scrollbar {
@@ -627,31 +622,31 @@
         }
 
         .table-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(212, 175, 55, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 4px;
         }
 
         .table-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(212, 175, 55, 1);
+            background: rgba(255, 255, 255, 1);
         }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             font-size: 1rem;
             letter-spacing: 0.5px;
         }
 
         .data-table th {
-            background: linear-gradient(135deg, rgb(30, 60, 114), rgb(42, 82, 152));
-            color: #d4af37;
+            background: linear-gradient(135deg, #037EF3, #037EF3);
+            color: #fff;
             padding: 15px 12px;
             text-align: center;
             font-weight: 600;
             font-size: 1.1rem;
             letter-spacing: 1px;
-            border-bottom: 3px solid rgba(212, 175, 55, 0.6);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.6);
             position: sticky;
             top: 0;
             z-index: 10;
@@ -677,7 +672,7 @@
         }
 
         .data-table tbody tr:hover td {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             transform: scale(1.01);
         }
 
@@ -686,7 +681,7 @@
         }
 
         .data-table tbody tr:nth-child(even):hover td {
-            background: rgba(212, 175, 55, 0.15);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .data-table tbody tr:last-child td {
@@ -703,7 +698,7 @@
             padding: 40px;
             font-size: 1.2rem;
             color: #666;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             letter-spacing: 1px;
         }
 
@@ -780,7 +775,7 @@
         }
 
         .chart-container:hover {
-            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
             transform: translateY(-3px);
         }
 
@@ -789,9 +784,9 @@
             margin-bottom: 15px;
             color: #2c3e50;
             text-align: center;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             letter-spacing: 1px;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             padding-bottom: 10px;
         }
 
@@ -805,7 +800,7 @@
         /* Combined Timeline Chart Styles */
         .combined-timeline-container {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.95));
-            border: 3px solid rgba(212, 175, 55, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.4);
             border-radius: 15px;
             padding: 25px;
             margin: 30px 0;
@@ -818,7 +813,7 @@
             padding: 20px;
             background: rgba(248, 249, 250, 0.8);
             border-radius: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .control-row {
@@ -840,7 +835,7 @@
         .dropdown-group label {
             font-weight: 600;
             color: #2c3e50;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             font-size: 1.1rem;
             letter-spacing: 1px;
             text-align: center;
@@ -848,12 +843,12 @@
 
         .chart-dropdown {
             padding: 10px 15px;
-            border: 2px solid rgba(212, 175, 55, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             font-size: 14px;
             color: #2c3e50;
             background: white;
-            font-family: 'BebasNeue', sans-serif;
+            font-family: 'Montserrat-Regular';
             letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -861,17 +856,15 @@
             text-align: center;
         }
 
-        
-
         .chart-dropdown:focus {
             outline: none;
-            border-color: #d4af37;
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            border-color: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
             transform: translateY(-1px);
         }
 
         .chart-dropdown:hover {
-            border-color: rgba(212, 175, 55, 0.6);
+            border-color: rgba(255, 255, 255, 0.6);
             background: rgba(248, 249, 250, 0.5);
         }
 
@@ -1055,13 +1048,13 @@
         
          /* Footer Styles */
         .footer {
-            background: linear-gradient(135deg, rgba(30, 60, 114, 0.95), rgba(42, 82, 152, 0.95));
+            background: linear-gradient(135deg, #037EF3, rgba(3, 126, 243, 0.95));
             color: white;
             text-align: center;
             padding: 25px 20px;
             margin-top: 50px;
-            border-top: 3px solid rgba(212, 175, 55, 0.8);
-            font-family: 'BebasNeue', sans-serif;
+            border-top: 3px solid rgba(255, 255, 255, 0.8);
+            font-family: 'Montserrat-Regular', sans-serif;
             letter-spacing: 1px;
             position: relative;
             backdrop-filter: blur(10px);
